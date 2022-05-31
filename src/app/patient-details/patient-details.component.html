@@ -1,0 +1,31 @@
+<div class="container">
+    <table class="table table-trapped">
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Spouse</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Address</th>
+                <th>Desease Info</th>
+            </tr>
+        </thead>
+     <tbody>
+        <tr *ngFor="let p of list1">
+            <td>{{p.patientName}}</td>
+            <td>{{p.spouseName}}</td>
+            <td>{{p.phoneNumber}}</td>
+            <td>{{p.email}}</td>
+            <td>{{p.age}}</td>
+            <td>{{p.gender}}</td>
+            <td>{{p.address}}</td>
+            <td>{{p.addlDetails}}</td>
+            <button class="btn btn-danger" (click)="moveTo(p)" routerLink="/addPatient" style="height:30px;margin-top:5px;padding:0em 0.5em">Edit</button>
+            <button class="btn btn-secondary" (click)="onDelete(p)" style="height:30px; margin:5px 5px;padding:0em 0.5em">Delete</button>
+          </tr>
+   </tbody>
+</table>
+<div style="margin:200px 400px;">{{isEmpty}}</div>
+</div>

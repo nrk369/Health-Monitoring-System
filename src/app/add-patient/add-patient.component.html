@@ -1,0 +1,116 @@
+<div class="container">
+    <h5>Add Patient<span><small class="text-muted">(Patient Details)</small></span></h5><br>
+  <form #patientForm='ngForm' (ngSubmit)="onSubmit();patientForm.reset();">
+    <!-- {{patientForm.value | json}}  -->
+  
+    <div class="row">
+     <div class="col-md-4 mb-3">
+       <label>Patient Name</label>
+       <input type="text" class="form-control" #name="ngModel" name="patientName" required minlength="6" 
+        pattern="[a-zA-Z][a-zA-Z\s]*"[class.is-invalid]="name?.invalid && name?.touched" [(ngModel)]="patientData.patientName">
+       <div *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+         <small *ngIf="name?.errors?.['required']" class="text-danger">Patient name is required..</small>
+         <small *ngIf="name?.errors?.['minlength']" class="text-danger">Name should be atleast 6 characters...</small>
+         <small *ngIf="name?.errors?.['pattern']" class="text-danger">Alphabets and spaces only are allowed</small>
+        </div>
+       <!-- <div class="invalid-feedback">
+         Name is required and should have minimum 6 characters
+       </div> -->
+     </div>
+
+     <div class="col-md-4 mb-3">
+      <label>Spouse Name <span class="text-muted">(Optional)</span></label>
+       <input type="text" class="form-control" name="spouseName" [(ngModel)]="patientData.spouseName">
+     </div>
+
+     <div class="col-md-4 mb-3">
+      <label>Phone Number</label>
+       <div class="input-group">
+         <div class="input-group-prepend">
+           <span class="input-group-text">+91</span>
+         </div>
+           <input type="tel" class="form-control" #phone="ngModel" name="phoneNumber" pattern="^[6-9]{1}[0-9]{9}" placeholder="Indian Phone Number" [(ngModel)]="patientData.phoneNumber">
+     </div>
+        <div *ngIf="phone?.errors?.['pattern']" class="text-danger">Number must be an Indian Phone number...</div>
+    </div>
+    </div>
+
+    <!-- <input type="text" class="form-control" placeholder="date of birth" bsDatepicker> -->
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label>Email</label>
+        <!-- <div class="input-group"> -->
+           <input type="email" class="form-control" #email="ngModel" name="email" pattern="^[A-Za-z0-9._%+-]+@gmail.com$" 
+           [class.is-invalid]="email.invalid && email.touched" placeholder="gmail only allowed" [(ngModel)]="patientData.email">
+           <!-- <div class="input-group-append">
+            <span class="input-group-text">@gmail.com</span>
+          </div> -->
+      <!-- </div> -->
+      
+      <small *ngIf="email?.errors?.['pattern']"  class="text-danger">gmail only should be entered</small>
+    </div>
+      <div class="col-md-4 mb-3">
+        <label>Date of Birth</label>
+        <input type="date" class="form-control" (click)="onChangeAge()" (keyup.enter)="onChangeAge()" name="date" [(ngModel)]="patientData.date">
+      </div>
+      <!-- {{todayDate}} -->
+      <div class="col-md-4 mb-3">
+        <div class="row" style="margin-top:25px;">
+          <div class="col-md-2">
+            <label style="margin: 5px 10px;">age:</label>
+          </div>
+   
+        <div class="col-md-10 w-50">
+        <input type="text" class="form-control" name="age" #age="ngModel" (change)="zeroError(age.value)" (blur)="zeroError(age.value)" required [class.is-invalid]="(age.invalid && age.touched) || ageZeroError" placeholder="" style="background-color:white" [(ngModel)]="patientData.age">
+        
+        <small class="text-danger" [class.d-none]="age?.valid || age?.untouched">Age is required</small> 
+        <small class="text-danger" [class.d-none]="!ageZeroError">Age can't be less than or equal to Zero</small>
+      </div>
+      </div>
+      </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4 mb-3">
+            <label>Gender</label>
+             <select class="form-select" name="gender" placeholder="Gender" required #gender="ngModel" [class.is-invalid]="gender.invalid && gender.touched" [(ngModel)]="patientData.gender">
+              <!-- <option value="" hidden></option> -->
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+            <small *ngIf="gender?.errors?.['required']" class="text-danger" [class.d-none]="gender?.valid || gender?.untouched">
+              Gender is required
+            </small>
+        </div>
+            <div class="col-md-8 mb-3">
+              <label>Address</label>
+              <input type="text" class="form-control" name="address" style="height:40px" [(ngModel)]="patientData.address">
+            </div>
+      </div>
+      <br>
+      <div mb-3>
+        <label>Additional Information </label>
+       <textarea type="text" class="form-control" #Details="ngModel" required minlength="50" maxlength="500" [class.is-invalid]="Details.invalid && Details.touched"   name="addl-text" placeholder="Additional Details on problem" [(ngModel)]="patientData.addlDetails"></textarea>
+        <div *ngIf="Details?.invalid && (Details?.touched || Details.dirty)">
+          <small *ngIf="Details?.errors?.['required']" class="text-danger">Addtional Details are required...</small>
+          <small *ngIf="Details?.errors?.['minlength']" class="text-danger">Mimimum 50 characters should be Entered...</small>
+          <small *ngIf="Details?.errors?.['maxlength']" class="text-danger">Maximum 500 character can be Entered</small>
+        </div>
+      </div>
+      <hr>
+ 
+      <div class="float-end">
+     
+      <!-- <button type="button" class="btn btn-danger ms-3" (click)="onReset(patientForm)">Reset</button> -->
+       <!-- <div *ngIf="isEdit"; then thenblock else elseblock></div>
+        <ng-template #thenblock> -->
+        <button type="button" [hidden]="isEdit" [disabled]="patientForm.form.invalid" style="margin-right: 200px;" class="btn btn-warning" (click)="onUpdate()">Update</button>
+      <!-- </ng-template>
+      <ng-template #elseblock> -->
+        <button type="submit" [hidden]="isSave" [disabled]="patientForm.form.invalid" class="btn btn-success">Save</button>
+      <!-- </ng-template> -->
+      </div>
+    
+      <!-- {{patientData | json}} -->
+   </form>
+</div>
