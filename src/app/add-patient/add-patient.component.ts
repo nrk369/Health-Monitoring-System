@@ -128,7 +128,7 @@ zeroError(age:string){
   //this.list1.push(this.patientData);
   //console.log(this.list1);
   localStorage.setItem("patient",JSON.stringify(this.list1));
-  this.router.navigate(['/patientDetails',{relativeTo:this.route}]);
+  this.router.navigate(['/patientDetails'],{relativeTo:this.route});
   // this.isEdit=false;
 }
 }
