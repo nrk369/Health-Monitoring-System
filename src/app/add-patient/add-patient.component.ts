@@ -30,6 +30,8 @@ export class AddPatientComponent implements OnInit {
     }
   
 ngOnInit(): void {
+  //this.patientData.age=0;
+  
      let url=(this.router.url).split('/');
    console.log(url);    //['','addPatient']
      if(url[1]==='addPatient')
@@ -99,22 +101,23 @@ onChangeAge(){
   // console.log(splitted);  //['2022','5','27']
    let year=parseInt(splitted[0]);
    let toYear=new Date().getUTCFullYear();
-   this.patientData.age=(toYear-year).toString();    //toString() because age is taken as string type
+   this.patientData.age=(toYear-year);    //toString() because age is taken as string typ
  }
 
 onReset(pForm:NgForm){
    pForm.reset();
 }
   
-onSubmit(){
-
+onSubmit(PatientForm:NgForm){
 let pid=new Date().getTime();
 this.patientData.patientId=pid;
 this._patientService.addPatient(this.patientData);
+PatientForm.reset();
 }
 
-zeroError(age:string){
-  if(parseInt(age) <= 0){
+zeroError(age:number){
+  // console.log(age);
+  if(age <= 0){
   this.ageZeroError=true;
    } else{
     this.ageZeroError=false;

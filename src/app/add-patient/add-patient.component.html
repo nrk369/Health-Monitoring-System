@@ -1,6 +1,6 @@
 <div class="container">
     <h5>Add Patient<span><small class="text-muted">(Patient Details)</small></span></h5><br>
-  <form #patientForm='ngForm' (ngSubmit)="onSubmit();patientForm.reset();">
+  <form #patientForm='ngForm'>
     <!-- {{patientForm.value | json}}  -->
   
     <div class="row">
@@ -51,7 +51,7 @@
     </div>
       <div class="col-md-4 mb-3">
         <label>Date of Birth</label>
-        <input type="date" class="form-control" (click)="onChangeAge()" (keyup.enter)="onChangeAge()" name="date" [(ngModel)]="patientData.date">
+        <input type="date" class="form-control"(change)="onChangeAge()" (blur)="zeroError(age.value)" name="date" [(ngModel)]="patientData.date">      
       </div>
       <!-- {{todayDate}} -->
       <div class="col-md-4 mb-3">
@@ -61,10 +61,10 @@
           </div>
    
         <div class="col-md-10 w-50">
-        <input type="text" class="form-control" name="age" #age="ngModel" (change)="zeroError(age.value)" (blur)="zeroError(age.value)" required [class.is-invalid]="(age.invalid && age.touched) || ageZeroError" placeholder="" style="background-color:white" [(ngModel)]="patientData.age">
+        <input type="number" class="form-control" name="age" #age="ngModel" (change)="zeroError(age.value)" (blur)="zeroError(age.value)" required [class.is-invalid]="(age.invalid && age.touched) || ageZeroError" placeholder="" style="background-color:white" [(ngModel)]="patientData.age">
         
-        <small class="text-danger" [class.d-none]="age?.valid || age?.untouched">Age is required</small> 
-        <small class="text-danger" [class.d-none]="!ageZeroError">Age can't be less than or equal to Zero</small>
+        <small class="text-danger" [class.d-none]="age?.valid || age?.untouched">Age is required...</small> 
+        <small class="text-danger" [class.d-none]="!ageZeroError">Age can't be empty or less than or equal to 0</small>
       </div>
       </div>
       </div>
@@ -107,7 +107,7 @@
         <button type="button" [hidden]="isEdit" [disabled]="patientForm.form.invalid" style="margin-right: 200px;" class="btn btn-warning" (click)="onUpdate()">Update</button>
       <!-- </ng-template>
       <ng-template #elseblock> -->
-        <button type="submit" [hidden]="isSave" [disabled]="patientForm.form.invalid" class="btn btn-success">Save</button>
+        <button type="submit" (click)="onSubmit(patientForm)" [hidden]="isSave" [disabled]="patientForm.form.invalid" class="btn btn-success">Save</button>
       <!-- </ng-template> -->
       </div>
     

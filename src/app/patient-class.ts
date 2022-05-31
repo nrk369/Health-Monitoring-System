@@ -5,9 +5,9 @@ export class Patient{
       public phoneNumber:string='';
       public email:string='';
       public date:string='';
-      public age:string='';
+      public age:number=0;
       public gender:string='';
       public address:string='';
-      public addlDetails:string=''
+      public addlDetails:string='';
     
 }
