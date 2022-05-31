@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { PatientService } from 'shared/patient.service';
 import { DATE } from 'ngx-bootstrap/chronos/units/constants';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+
 @Component({
   selector: 'add-patient',
   templateUrl: './add-patient.component.html',
@@ -14,13 +15,12 @@ export class AddPatientComponent implements OnInit {
 
   patientData=new Patient();
   ageZeroError:boolean=false; 
-  todayDate='2020-05-27';
-  date1=new Date();
-  toYear=this.date1.getUTCFullYear();
-  toMonth=this.date1.getUTCMonth();
-  toDate=this.date1.getUTCDate();  
-  finalDate:any;
-  finalMonth:any;
+  // todayDate='2020-05-27';
+  // date1=new Date();
+  // toMonth=this.date1.getUTCMonth();
+  // toDate=this.date1.getUTCDate();  
+  // finalDate:any;
+  // finalMonth:any;
   list1:any[]=[];
   id:number=0;
   itemIndex:number=-1
@@ -30,17 +30,29 @@ export class AddPatientComponent implements OnInit {
     }
   
 ngOnInit(): void {
-    
-    var pathArray=window.location.pathname.split('/');
-    console.log(pathArray[1]);
-    if(pathArray[1]==='addPatient')
-    this.isEdit=true;
-    else
-    this.isEdit=false;
-    if(pathArray[1]==='patientDetails')
-    this.isSave=true;
-    else
-    this.isSave=false;
+     let url=(this.router.url).split('/');
+   console.log(url);    //['','addPatient']
+     if(url[1]==='addPatient')
+      this.isEdit=true;
+     else
+      this.isEdit=false;
+     if(url[1]==='patientDetails')
+      this.isSave=true;
+     else
+      this.isSave=false;
+  
+
+
+  //   let pathArray=window.location.pathname.split('/');
+  //  // console.log(pathArray[1]);
+  //   if(pathArray[1]==='addPatient')
+  //   this.isEdit=true;
+  //   else
+  //   this.isEdit=false;
+  //   if(pathArray[1]==='patientDetails')
+  //   this.isSave=true;
+  //   else
+  //   this.isSave=false;
 
   //  this.isEdit=false;
    this.route.paramMap.subscribe((params:ParamMap) => {
@@ -59,38 +71,35 @@ ngOnInit(): void {
         break;
       } }
       }
-      else{
-        alert("No Records Found");
-      }
-      //console.log(this.patientData);
-      }
+     }
    })
   
-  
-   // to set dob to be current date...
-   this.toMonth+=1;   //month incremented by 1 as it starts from 0
-   if(this.toDate<10){
-        this.finalDate='0'+this.toDate;     //0 appended to make date<10 to 01,02,03....09 (two digits)
-   }else{
-     this.finalDate=this.toDate;
-   }
+  }  
+  //  // to set dob to be current date...
+  //  this.toMonth+=1;   //month incremented by 1 as it starts from 0
+  //  if(this.toDate<10){
+  //       this.finalDate='0'+this.toDate;     //0 appended to make date<10 to 01,02,03....09 (two digits)
+  //  }else{
+  //    this.finalDate=this.toDate;
+  //  }
 
-   if(this.toMonth<10){
-     this.finalMonth='0'+this.toMonth;      ////0 appended to make month<10 to 01,02,03....09 (two digits)
-   } else{
-      this.finalMonth=this.toMonth;
-   }
+  //  if(this.toMonth<10){
+  //    this.finalMonth='0'+this.toMonth;      ////0 appended to make month<10 to 01,02,03....09 (two digits)
+  //  } else{
+  //     this.finalMonth=this.toMonth;
+  //  }
 
-   this.todayDate=this.toYear+"-"+this.finalMonth+"-"+this.finalDate;  //  console.log(date1);
+  //  this.todayDate=this.toYear+"-"+this.finalMonth+"-"+this.finalDate;  //  console.log(date1);
   
-    this.patientData.date=this.todayDate;
-}
+  //   this.patientData.date=this.todayDate;
+
 
 onChangeAge(){
   let splitted=(this.patientData.date).split('-');
   // console.log(splitted);  //['2022','5','27']
    let year=parseInt(splitted[0]);
-   this.patientData.age=(this.toYear-year).toString();    //toString() because age is taken as string type
+   let toYear=new Date().getUTCFullYear();
+   this.patientData.age=(toYear-year).toString();    //toString() because age is taken as string type
  }
 
 onReset(pForm:NgForm){
@@ -119,6 +128,7 @@ zeroError(age:string){
   //this.list1.push(this.patientData);
   //console.log(this.list1);
   localStorage.setItem("patient",JSON.stringify(this.list1));
+  this.router.navigate(['/patientDetails',{relativeTo:this.route}]);
   // this.isEdit=false;
 }
 }
