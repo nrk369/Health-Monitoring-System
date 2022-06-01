@@ -29,7 +29,7 @@
          <div class="input-group-prepend">
            <span class="input-group-text">+91</span>
          </div>
-           <input type="tel" class="form-control" #phone="ngModel" name="phoneNumber" pattern="^[6-9]{1}[0-9]{9}" placeholder="Indian Phone Number" [(ngModel)]="patientData.phoneNumber">
+           <input type="tel" class="form-control" #phone="ngModel" name="phoneNumber" maxlength="10" pattern="^[6-9]{1}[0-9]{9}" placeholder="Indian Phone Number" [(ngModel)]="patientData.phoneNumber">
      </div>
         <div *ngIf="phone?.errors?.['pattern']" class="text-danger">Number must be an Indian Phone number...</div>
     </div>
@@ -51,7 +51,7 @@
     </div>
       <div class="col-md-4 mb-3">
         <label>Date of Birth</label>
-        <input type="date" class="form-control"(change)="onChangeAge()" (blur)="zeroError(age.value)" name="date" [(ngModel)]="patientData.date">      
+        <input type="date" class="form-control"(change)="onChangeAge()" name="date" [(ngModel)]="patientData.date">      
       </div>
       <!-- {{todayDate}} -->
       <div class="col-md-4 mb-3">
@@ -107,7 +107,7 @@
         <button type="button" [hidden]="isEdit" [disabled]="patientForm.form.invalid" style="margin-right: 200px;" class="btn btn-warning" (click)="onUpdate()">Update</button>
       <!-- </ng-template>
       <ng-template #elseblock> -->
-        <button type="submit" (click)="onSubmit(patientForm)" [hidden]="isSave" [disabled]="patientForm.form.invalid" class="btn btn-success">Save</button>
+        <button type="submit" (click)="onSubmit(patientForm)" [hidden]="isSave" [disabled]="patientForm.form.invalid || ageZeroError" class="btn btn-success">Save</button>
       <!-- </ng-template> -->
       </div>
     

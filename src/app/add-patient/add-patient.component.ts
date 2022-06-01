@@ -102,7 +102,13 @@ onChangeAge(){
    let year=parseInt(splitted[0]);
    let toYear=new Date().getUTCFullYear();
    this.patientData.age=(toYear-year);    //toString() because age is taken as string typ
- }
+   if(this.patientData.age <= 0){
+       this.ageZeroError=true;
+     } else{
+      this.ageZeroError=false;
+    }
+   }  
+ 
 
 onReset(pForm:NgForm){
    pForm.reset();
@@ -117,12 +123,12 @@ PatientForm.reset();
 
 zeroError(age:number){
   // console.log(age);
-  if(age <= 0){
-  this.ageZeroError=true;
-   } else{
-    this.ageZeroError=false;
-  }
- }
+  if(age<=0){
+  this.ageZeroError=true;}
+ else{
+ this.ageZeroError=false;
+}
+}
  onUpdate(){
   //this.list1=this.list1.filter(item=> item.patientId !== this.id);
   
